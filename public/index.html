@@ -2,10 +2,10 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Instagram Generator | @atsu_english_lesson</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     :root {
       --bg: #0d0d0d;
@@ -31,62 +31,47 @@
 
     /* ─── Header ─────────────────────────────────── */
     header {
-      padding: 20px 32px;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
       border-bottom: 1px solid var(--border);
       background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .logo {
-      width: 44px; height: 44px;
+      width: 38px; height: 38px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border-radius: 12px;
+      border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
+      font-size: 18px;
       flex-shrink: 0;
     }
 
-    header h1 { font-size: 18px; font-weight: 700; }
-    header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    .header-text h1 { font-size: 15px; font-weight: 700; }
+    .header-text p { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
 
     .status-dot {
       margin-left: auto;
-      display: flex; align-items: center; gap: 8px;
-      font-size: 13px; color: var(--text-muted);
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--text-muted);
     }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); }
-    .dot.online { background: var(--green); box-shadow: 0 0 6px var(--green); }
-
-    /* ─── Main Layout ─────────────────────────────── */
-    main {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      min-height: 0;
-    }
-
-    /* ─── Sidebar ─────────────────────────────────── */
-    aside {
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      padding: 0 0 28px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      overflow-y: auto;
-    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); flex-shrink: 0; }
+    .dot.online { background: var(--green); box-shadow: 0 0 5px var(--green); }
 
     /* ─── Type Tabs ─────────────────────────────── */
     .type-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
     }
 
     .type-tab {
-      padding: 16px;
+      padding: 14px;
       text-align: center;
       cursor: pointer;
       font-size: 14px;
@@ -98,77 +83,82 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
+      user-select: none;
     }
-
-    .type-tab:hover { color: var(--text); }
     .type-tab.active {
       color: var(--accent);
       border-bottom-color: var(--accent);
-      background: rgba(108, 99, 255, 0.05);
+      background: rgba(108,99,255,0.05);
     }
 
-    .sidebar-inner {
-      padding: 24px;
+    /* ─── Main Layout ─────────────────────────────── */
+    main {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 22px;
-      flex: 1;
+    }
+
+    /* Controls panel */
+    .controls {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
     .section-label {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     /* Genre Cards */
     .genre-cards {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
     }
 
     .genre-card {
       background: var(--surface2);
       border: 2px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 10px;
+      border-radius: 12px;
+      padding: 10px 6px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       text-align: center;
+      user-select: none;
     }
-
-    .genre-card:hover {
-      border-color: var(--accent);
-      background: rgba(108, 99, 255, 0.08);
-    }
-
+    .genre-card:active { transform: scale(0.96); }
+    .genre-card:hover { border-color: var(--accent); }
     .genre-card.selected {
       border-color: var(--accent);
-      background: rgba(108, 99, 255, 0.15);
+      background: rgba(108,99,255,0.15);
     }
 
-    .genre-icon { font-size: 26px; display: block; margin-bottom: 6px; }
-    .genre-name { font-size: 12px; font-weight: 600; }
-    .genre-desc { font-size: 10px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+    .genre-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+    .genre-name { font-size: 11px; font-weight: 600; line-height: 1.3; }
+    .genre-desc { font-size: 9px; color: var(--text-muted); margin-top: 2px; line-height: 1.3; display: none; }
 
     /* Custom prompt */
     textarea {
       width: 100%;
       background: var(--surface2);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
+      border-radius: 10px;
+      padding: 12px;
       color: var(--text);
       font-size: 14px;
       resize: none;
-      height: 88px;
+      height: 72px;
       transition: border-color 0.2s;
       font-family: inherit;
-      line-height: 1.6;
+      line-height: 1.5;
     }
     textarea::placeholder { color: var(--text-muted); }
     textarea:focus { outline: none; border-color: var(--accent); }
@@ -179,103 +169,88 @@
       color: white;
       border: none;
       border-radius: 14px;
-      padding: 15px;
-      font-size: 15px;
+      padding: 16px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       width: 100%;
-      transition: all 0.2s;
+      transition: all 0.15s;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
+      user-select: none;
+      -webkit-appearance: none;
     }
-    .btn-generate:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4);
-    }
+    .btn-generate:active { transform: scale(0.97); }
     .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    /* Tips */
-    .tips-box {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
+    /* Tips accordion */
+    .tips-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 10px 0 0;
+      user-select: none;
     }
-    .tips-box p {
+    .tips-toggle-label { font-size: 11px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; }
+    .tips-arrow { font-size: 10px; color: var(--text-muted); transition: transform 0.2s; }
+    .tips-arrow.open { transform: rotate(180deg); }
+
+    .tips-content {
+      display: none;
+      padding-top: 10px;
+    }
+    .tips-content.open { display: block; }
+    .tips-content p {
       font-size: 12px;
       color: var(--text-muted);
       line-height: 1.7;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
-    .tips-box p:last-child { margin-bottom: 0; }
-    .tips-box strong { color: var(--text); }
+    .tips-content strong { color: var(--text); }
 
-    /* How to use */
-    .howto-box {
-      background: rgba(108, 99, 255, 0.05);
-      border: 1px solid rgba(108, 99, 255, 0.2);
-      border-radius: 12px;
-      padding: 14px;
-    }
-    .howto-box ol {
-      padding-left: 16px;
+    /* ─── Results Area ───────────────────────────── */
+    .results {
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-    }
-    .howto-box li {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-    .howto-box li strong { color: #a89cff; }
-
-    /* ─── Content Area ───────────────────────────── */
-    .content {
-      overflow-y: auto;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
+      gap: 16px;
+      padding-bottom: 40px;
     }
 
     /* Empty State */
     .empty-state {
-      flex: 1;
+      padding: 60px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 16px;
+      gap: 12px;
       color: var(--text-muted);
       text-align: center;
     }
-    .empty-icon { font-size: 64px; opacity: 0.4; }
-    .empty-state h2 { font-size: 20px; color: var(--text); opacity: 0.6; }
-    .empty-state p { font-size: 14px; max-width: 340px; line-height: 1.6; }
+    .empty-icon { font-size: 52px; opacity: 0.4; }
+    .empty-state h2 { font-size: 18px; color: var(--text); opacity: 0.6; }
+    .empty-state p { font-size: 13px; max-width: 280px; line-height: 1.6; }
 
     /* Loading State */
     .loading-state {
-      flex: 1;
+      padding: 60px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 20px;
+      gap: 16px;
     }
-
     .spinner {
-      width: 48px; height: 48px;
+      width: 40px; height: 40px;
       border: 3px solid var(--border);
       border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    .loading-text { font-size: 15px; color: var(--text-muted); }
+    .loading-text { font-size: 14px; color: var(--text-muted); }
     .loading-dots::after {
       content: '';
       animation: dots 1.4s infinite;
@@ -287,59 +262,58 @@
       75%  { content: '...'; }
     }
 
-    /* ─── Story / Post Cards ──────────────────────── */
+    /* ─── Cards ──────────────────────────────────── */
     .story-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 18px;
       overflow: hidden;
-      transition: border-color 0.2s;
     }
-    .story-card:hover { border-color: #333; }
 
     .card-header {
       background: var(--surface2);
-      padding: 14px 18px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       border-bottom: 1px solid var(--border);
     }
 
     .card-num {
-      width: 30px; height: 30px;
+      width: 28px; height: 28px;
       background: linear-gradient(135deg, var(--accent), #8b5cf6);
-      border-radius: 9px;
+      border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700;
+      font-size: 12px; font-weight: 700;
       flex-shrink: 0;
     }
 
-    .card-title { font-size: 14px; font-weight: 600; flex: 1; }
+    .card-title { font-size: 13px; font-weight: 600; flex: 1; line-height: 1.4; }
 
     .copy-all-btn {
       background: var(--border);
       border: none;
       border-radius: 8px;
-      padding: 6px 12px;
+      padding: 7px 10px;
       color: var(--text-muted);
       font-size: 12px;
       cursor: pointer;
       transition: all 0.2s;
       white-space: nowrap;
+      flex-shrink: 0;
     }
-    .copy-all-btn:hover { background: var(--accent); color: white; }
+    .copy-all-btn:active, .copy-all-btn:hover { background: var(--accent); color: white; }
     .copy-all-btn.copied { background: var(--green); color: white; }
 
-    .card-body { padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+    .card-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
 
     /* Fields */
-    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
 
     .field-label {
       font-size: 10px;
       font-weight: 600;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
       color: var(--text-muted);
     }
@@ -369,7 +343,7 @@
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 9px 12px;
+      padding: 10px 12px;
       font-size: 14px;
       line-height: 1.6;
     }
@@ -385,19 +359,122 @@
     }
 
     /* Hashtags */
-    .hashtag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .hashtag-list { display: flex; flex-wrap: wrap; gap: 7px; }
     .hashtag {
       background: rgba(108,99,255,0.15);
       border: 1px solid rgba(108,99,255,0.3);
       border-radius: 20px;
-      padding: 4px 12px;
+      padding: 5px 12px;
       font-size: 13px;
       color: #a89cff;
       cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .hashtag:active { background: rgba(108,99,255,0.4); }
+    .hashtag.copied-tag { background: rgba(0,200,150,0.15); border-color: var(--green); color: var(--green); }
+
+    /* Copy Button */
+    .copy-field-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      background: var(--border);
+      border: none;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
       transition: all 0.2s;
     }
-    .hashtag:hover { background: rgba(108,99,255,0.3); }
-    .hashtag.copied-tag { background: rgba(0,200,150,0.15); border-color: var(--green); color: var(--green); }
+    .copy-field-btn:active, .copy-field-btn:hover { background: var(--accent); color: white; }
+    .copy-field-btn.copied { background: var(--green); color: white; }
+
+    /* CTA Field */
+    .cta-value {
+      background: linear-gradient(135deg, rgba(0,200,150,0.1), rgba(0,200,150,0.05));
+      border-color: rgba(0,200,150,0.3);
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* Carousel Slides */
+    .slides-container { display: flex; flex-direction: column; gap: 8px; }
+
+    .slide {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .slide-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .badge-hook { background: rgba(108,99,255,0.3); color: #a89cff; }
+    .badge-content { background: rgba(0,200,150,0.15); color: var(--green); }
+    .badge-summary { background: rgba(255,165,0,0.15); color: #ffa500; }
+    .badge-cta { background: rgba(255,101,132,0.2); color: #ff9090; }
+
+    .slide-num { font-size: 11px; color: var(--text-muted); margin-left: auto; }
+
+    .slide-body {
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slide-headline { font-size: 14px; font-weight: 700; line-height: 1.4; }
+    .slide-sub { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    .slide-phrase-wrong {
+      font-size: 13px; color: #ff9090;
+      padding: 6px 10px;
+      background: rgba(255,100,100,0.08);
+      border-radius: 6px;
+      border-left: 3px solid rgba(255,100,100,0.4);
+    }
+    .slide-phrase-right {
+      font-size: 14px; font-weight: 600; color: var(--green);
+      padding: 6px 10px;
+      background: rgba(0,200,150,0.08);
+      border-radius: 6px;
+      border-left: 3px solid rgba(0,200,150,0.4);
+    }
+    .slide-translation { font-size: 12px; color: var(--text-muted); }
+    .slide-explanation { font-size: 13px; line-height: 1.6; }
+    .slide-scene { font-size: 13px; line-height: 1.6; }
+    .slide-twist { font-size: 13px; line-height: 1.6; color: #ffa500; }
+    .slide-lesson { font-size: 13px; color: #a89cff; line-height: 1.6; }
+    .slide-cta-main { font-size: 15px; font-weight: 700; color: var(--accent2); }
+    .slide-cta-sub { font-size: 12px; color: var(--text-muted); }
+
+    .post-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(255,165,0,0.15);
+      color: #ffa500;
+      border: 1px solid rgba(255,165,0,0.3);
+      margin-left: 6px;
+      flex-shrink: 0;
+    }
 
     /* Visual Card */
     .visual-card {
@@ -409,131 +486,23 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
-    .visual-item { display: flex; flex-direction: column; gap: 4px; }
+    .visual-item { display: flex; flex-direction: column; gap: 3px; }
     .visual-key { font-size: 10px; color: var(--text-muted); }
-    .visual-val { font-size: 13px; line-height: 1.5; }
+    .visual-val { font-size: 12px; line-height: 1.5; }
+    .color-chip { display: inline-flex; align-items: center; gap: 5px; }
+    .chip { width: 13px; height: 13px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
 
-    .color-chip { display: inline-flex; align-items: center; gap: 6px; }
-    .chip {
-      width: 14px; height: 14px;
-      border-radius: 3px;
-      border: 1px solid rgba(255,255,255,0.1);
-      flex-shrink: 0;
-    }
-
-    /* Copy Button */
-    .copy-field-btn {
-      position: absolute;
-      top: 8px; right: 8px;
-      background: var(--border);
-      border: none;
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 11px;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .copy-field-btn:hover { background: var(--accent); color: white; }
-    .copy-field-btn.copied { background: var(--green); color: white; }
-
-    /* CTA Field */
-    .cta-value {
-      background: linear-gradient(135deg, rgba(0,200,150,0.1), rgba(0,200,150,0.05));
-      border-color: rgba(0,200,150,0.3);
-      color: var(--green);
-      font-weight: 600;
-    }
-
-    /* ─── Carousel Slides ────────────────────────── */
-    .slides-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .slide {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .slide-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      background: var(--surface2);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .slide-badge {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 6px;
-      white-space: nowrap;
-    }
-    .badge-hook { background: rgba(108,99,255,0.3); color: #a89cff; }
-    .badge-content { background: rgba(0,200,150,0.15); color: var(--green); }
-    .badge-summary { background: rgba(255,165,0,0.15); color: #ffa500; }
-    .badge-cta { background: rgba(255,101,132,0.2); color: #ff9090; }
-
-    .slide-num {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-left: auto;
-    }
-
-    .slide-body {
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .slide-headline { font-size: 15px; font-weight: 700; line-height: 1.4; }
-    .slide-sub { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-
-    .slide-phrase-wrong {
-      font-size: 13px;
-      color: #ff9090;
-      padding: 6px 10px;
-      background: rgba(255,100,100,0.08);
-      border-radius: 6px;
-      border-left: 3px solid rgba(255,100,100,0.4);
-    }
-    .slide-phrase-right {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--green);
-      padding: 6px 10px;
-      background: rgba(0,200,150,0.08);
-      border-radius: 6px;
-      border-left: 3px solid rgba(0,200,150,0.4);
-    }
-    .slide-translation { font-size: 12px; color: var(--text-muted); }
-    .slide-explanation { font-size: 13px; line-height: 1.6; }
-
-    .slide-cta-main { font-size: 16px; font-weight: 700; color: var(--accent2); }
-    .slide-cta-sub { font-size: 13px; color: var(--text-muted); }
-
-    /* Story episode slide */
-    .slide-scene { font-size: 14px; line-height: 1.6; }
-    .slide-twist { font-size: 14px; line-height: 1.6; color: #ffa500; }
-    .slide-lesson { font-size: 13px; color: #a89cff; line-height: 1.6; }
-
-    /* Raw JSON toggle */
+    /* Raw JSON */
     .raw-toggle {
       background: none;
       border: 1px solid var(--border);
       color: var(--text-muted);
       border-radius: 8px;
-      padding: 6px 14px;
-      font-size: 12px;
+      padding: 6px 12px;
+      font-size: 11px;
       cursor: pointer;
       transition: all 0.2s;
-      margin-top: -6px;
+      margin-top: -4px;
     }
     .raw-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
@@ -541,11 +510,11 @@
       background: #0a0a0a;
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 14px;
+      padding: 12px;
       font-size: 11px;
       overflow-x: auto;
       color: #ccc;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     /* Error */
@@ -553,36 +522,68 @@
       background: rgba(255,100,100,0.1);
       border: 1px solid rgba(255,100,100,0.3);
       border-radius: 12px;
-      padding: 16px 20px;
+      padding: 14px 18px;
       color: #ff9090;
       font-size: 14px;
       line-height: 1.6;
     }
 
-    /* Post type label */
-    .post-type-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 20px;
-      background: rgba(255,165,0,0.15);
-      color: #ffa500;
-      border: 1px solid rgba(255,165,0,0.3);
-      margin-left: 8px;
+    /* Daily phrase highlight */
+    .daily-value {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, rgba(0,200,150,0.15), rgba(108,99,255,0.1));
+      border-color: rgba(0,200,150,0.3);
+      color: var(--green);
     }
 
     /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      main { grid-template-columns: 1fr; }
-      aside { border-right: none; border-bottom: 1px solid var(--border); }
+    /* ─── Desktop overrides ───────────────────────── */
+    @media (min-width: 768px) {
+      header { padding: 18px 32px; }
+      .logo { width: 44px; height: 44px; font-size: 22px; }
+      .header-text h1 { font-size: 18px; }
+      .header-text p { font-size: 13px; }
+
+      main {
+        flex-direction: row;
+        align-items: stretch;
+        overflow: hidden;
+        height: calc(100vh - 69px);
+      }
+
+      .controls {
+        width: 340px;
+        flex-shrink: 0;
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+        overflow-y: auto;
+        padding: 24px;
+        gap: 20px;
+      }
+
+      .genre-cards { grid-template-columns: repeat(3, 1fr); }
+      .genre-desc { display: block; }
+
+      .results {
+        flex: 1;
+        overflow-y: auto;
+        padding: 28px;
+        gap: 20px;
+      }
+
+      .type-tabs { background: var(--surface); }
+
+      textarea { height: 88px; }
+
+      .tips-toggle { display: none; }
+      .tips-content { display: block !important; padding-top: 0; }
+
+      .card-title { font-size: 14px; }
     }
   </style>
 </head>
@@ -590,9 +591,9 @@
 
 <header>
   <div class="logo">📱</div>
-  <div>
+  <div class="header-text">
     <h1>Instagram Generator</h1>
-    <p>@atsu_english_lesson — ストーリー &amp; ポスト自動生成</p>
+    <p>@atsu_english_lesson</p>
   </div>
   <div class="status-dot">
     <div class="dot" id="statusDot"></div>
@@ -600,101 +601,89 @@
   </div>
 </header>
 
+<div class="type-tabs">
+  <div class="type-tab active" id="tabStory" onclick="switchType('story')">📱 ストーリー</div>
+  <div class="type-tab" id="tabPost" onclick="switchType('post')">🖼️ ポスト</div>
+</div>
+
 <main>
-  <aside>
-    <!-- Type Tab -->
-    <div class="type-tabs">
-      <div class="type-tab active" id="tabStory" onclick="switchType('story')">
-        📱 ストーリー
+  <div class="controls" id="controls">
+
+    <!-- Genre -->
+    <div>
+      <div class="section-label">ジャンルを選ぶ</div>
+
+      <div class="genre-cards" id="storyGenres">
+        <div class="genre-card selected" data-genre="phrase" onclick="selectGenre(this)">
+          <span class="genre-icon">💬</span>
+          <div class="genre-name">英語フレーズ</div>
+          <div class="genre-desc">間違いがち・ネイティブ表現</div>
+        </div>
+        <div class="genre-card" data-genre="daily" onclick="selectGenre(this)">
+          <span class="genre-icon">🗣️</span>
+          <div class="genre-name">日常英語</div>
+          <div class="genre-desc">これ英語でなんていう？</div>
+        </div>
+        <div class="genre-card" data-genre="episode" onclick="selectGenre(this)">
+          <span class="genre-icon">🌏</span>
+          <div class="genre-name">海外エピソード</div>
+          <div class="genre-desc">NZ・アメリカ生活の体験談</div>
+        </div>
       </div>
-      <div class="type-tab" id="tabPost" onclick="switchType('post')">
-        🖼️ ポスト
+
+      <div class="genre-cards" id="postGenres" style="display:none">
+        <div class="genre-card selected" data-genre="carousel_phrase" onclick="selectGenre(this)">
+          <span class="genre-icon">📚</span>
+          <div class="genre-name">フレーズ</div>
+          <div class="genre-desc">8枚スライド・フレーズ解説</div>
+        </div>
+        <div class="genre-card" data-genre="carousel_episode" onclick="selectGenre(this)">
+          <span class="genre-icon">✈️</span>
+          <div class="genre-name">エピソード</div>
+          <div class="genre-desc">6枚・海外生活ストーリー</div>
+        </div>
       </div>
     </div>
 
-    <div class="sidebar-inner">
+    <!-- Custom Prompt -->
+    <div>
+      <div class="section-label">追加リクエスト（任意）</div>
+      <textarea id="customPrompt" placeholder="例：ビジネス英語に絞って&#10;例：初心者向けで&#10;例：カフェで使えるフレーズ"></textarea>
+    </div>
 
-      <!-- Genre Selection -->
-      <div>
-        <div class="section-label">📌 ジャンルを選ぶ</div>
+    <!-- Generate Button -->
+    <button class="btn-generate" id="generateBtn" onclick="generate()">
+      <span>✨</span>
+      <span id="generateBtnText">ネタを3つ生成する</span>
+    </button>
 
-        <!-- Story genres -->
-        <div class="genre-cards" id="storyGenres">
-          <div class="genre-card selected" data-genre="phrase" onclick="selectGenre(this)">
-            <span class="genre-icon">💬</span>
-            <div class="genre-name">英語フレーズ</div>
-            <div class="genre-desc">豆知識・間違いがち・ネイティブ表現</div>
-          </div>
-          <div class="genre-card" data-genre="episode" onclick="selectGenre(this)">
-            <span class="genre-icon">🌏</span>
-            <div class="genre-name">海外エピソード</div>
-            <div class="genre-desc">NZ・アメリカ生活の体験談・あるある</div>
-          </div>
-        </div>
-
-        <!-- Post genres -->
-        <div class="genre-cards" id="postGenres" style="display:none">
-          <div class="genre-card selected" data-genre="carousel_phrase" onclick="selectGenre(this)">
-            <span class="genre-icon">📚</span>
-            <div class="genre-name">フレーズカルーセル</div>
-            <div class="genre-desc">8枚スライド・英語フレーズ解説</div>
-          </div>
-          <div class="genre-card" data-genre="carousel_episode" onclick="selectGenre(this)">
-            <span class="genre-icon">✈️</span>
-            <div class="genre-name">エピソードカルーセル</div>
-            <div class="genre-desc">6〜8枚・海外生活ストーリー</div>
-          </div>
-        </div>
+    <!-- Tips (accordion on mobile, always open on desktop) -->
+    <div>
+      <div class="tips-toggle" onclick="toggleTips(this)">
+        <span class="tips-toggle-label" id="tipsLabel">💡 バズらせるコツ</span>
+        <span class="tips-arrow">▼</span>
       </div>
-
-      <!-- Custom Prompt -->
-      <div>
-        <div class="section-label">✏️ 追加リクエスト（任意）</div>
-        <textarea id="customPrompt" placeholder="例：ビジネス英語に絞って&#10;例：初心者向けで&#10;例：NZのカフェで起きた失敗談"></textarea>
-      </div>
-
-      <!-- Generate Button -->
-      <button class="btn-generate" id="generateBtn" onclick="generate()">
-        <span>✨</span>
-        <span id="generateBtnText">ネタを3つ生成する</span>
-      </button>
-
-      <!-- How to use -->
-      <div class="howto-box">
-        <div class="section-label">📖 使い方</div>
-        <ol>
-          <li><strong>タブ</strong>でストーリーかポストを選ぶ</li>
-          <li><strong>ジャンル</strong>をクリックして選択</li>
-          <li>追加リクエストは任意（空でもOK）</li>
-          <li>「生成」ボタンを押す（30秒ほどかかります）</li>
-          <li>生成されたネタをコピーしてInstaに貼り付け</li>
-          <li><strong>Cmd+Enter</strong> でも生成できます</li>
-        </ol>
-      </div>
-
-      <!-- Tips -->
-      <div class="tips-box">
-        <div class="section-label" id="tipsLabel">💡 ストーリーのコツ</div>
-        <div id="storyTips">
+      <div class="tips-content" id="tipsContent">
+        <div id="storyTips" style="display:block">
           <p><strong>最初の2秒</strong>が勝負。フックは疑問形か驚き系で。</p>
-          <p><strong>DMシェア</strong>を誘発するCTAを最後に必ず入れる。</p>
+          <p><strong>DMシェア</strong>を促すCTAを最後に必ず入れる。</p>
           <p><strong>毎日同じ時間</strong>に投稿（最初の2週間が鍵）。</p>
         </div>
         <div id="postTips" style="display:none">
-          <p><strong>1枚目だけ</strong>でフォロワーを止める。驚き or 共感フックを。</p>
-          <p><strong>8〜10枚</strong>のカルーセルが最もリーチが高い（2026年）。</p>
-          <p><strong>保存率</strong>を上げるために「後で使える情報」を入れる。</p>
+          <p><strong>1枚目だけ</strong>でフォロワーを止める。</p>
+          <p><strong>8〜10枚</strong>のカルーセルが最もリーチが高い。</p>
+          <p><strong>保存率</strong>を上げる「後で使える情報」を入れる。</p>
         </div>
       </div>
-
     </div>
-  </aside>
 
-  <div class="content" id="content">
-    <div class="empty-state" id="emptyState">
+  </div>
+
+  <div class="results" id="results">
+    <div class="empty-state">
       <div class="empty-icon">🎯</div>
       <h2>ネタを生成しよう</h2>
-      <p>ジャンルを選んで「生成」ボタンを押すと、すぐ使えるネタが3つ出てきます。ストーリーもポストもOK。</p>
+      <p>ジャンルを選んで生成ボタンを押すと、すぐ使えるネタが3つ出てきます。</p>
     </div>
   </div>
 </main>
@@ -704,7 +693,6 @@ let selectedType = 'story';
 let selectedGenre = 'phrase';
 let isGenerating = false;
 
-// Status check
 async function checkStatus() {
   try {
     const res = await fetch('/api/health');
@@ -713,29 +701,26 @@ async function checkStatus() {
     const text = document.getElementById('statusText');
     if (data.apiKeySet) {
       dot.className = 'dot online';
-      text.textContent = 'Claude API 接続済み';
+      text.textContent = 'AI接続済み';
     } else {
-      dot.className = 'dot';
-      text.textContent = 'API Key 未設定';
+      text.textContent = 'APIキー未設定';
     }
   } catch {
-    document.getElementById('statusText').textContent = 'サーバー未起動';
+    document.getElementById('statusText').textContent = '未起動';
   }
 }
 checkStatus();
 
 function switchType(type) {
   selectedType = type;
-
   document.getElementById('tabStory').classList.toggle('active', type === 'story');
   document.getElementById('tabPost').classList.toggle('active', type === 'post');
   document.getElementById('storyGenres').style.display = type === 'story' ? 'grid' : 'none';
   document.getElementById('postGenres').style.display = type === 'post' ? 'grid' : 'none';
   document.getElementById('storyTips').style.display = type === 'story' ? 'block' : 'none';
   document.getElementById('postTips').style.display = type === 'post' ? 'block' : 'none';
-  document.getElementById('tipsLabel').textContent = type === 'story' ? '💡 ストーリーのコツ' : '💡 ポストのコツ';
+  document.getElementById('tipsLabel').textContent = type === 'story' ? '💡 バズらせるコツ' : '💡 ポストのコツ';
 
-  // Select first genre of the switched type
   const cards = document.querySelectorAll(type === 'story' ? '#storyGenres .genre-card' : '#postGenres .genre-card');
   cards.forEach(c => c.classList.remove('selected'));
   if (cards.length > 0) {
@@ -743,13 +728,10 @@ function switchType(type) {
     selectedGenre = cards[0].dataset.genre;
   }
 
-  // Update button text
-  const btnText = type === 'post' ? 'カルーセルを3つ生成する' : 'ネタを3つ生成する';
-  document.getElementById('generateBtnText').textContent = btnText;
+  document.getElementById('generateBtnText').textContent = type === 'post' ? 'カルーセルを3つ生成する' : 'ネタを3つ生成する';
 
-  // Reset content area
-  document.getElementById('content').innerHTML = `
-    <div class="empty-state" id="emptyState">
+  document.getElementById('results').innerHTML = `
+    <div class="empty-state">
       <div class="empty-icon">${type === 'post' ? '🖼️' : '📱'}</div>
       <h2>${type === 'post' ? 'カルーセルを生成しよう' : 'ネタを生成しよう'}</h2>
       <p>ジャンルを選んで生成ボタンを押してください。</p>
@@ -758,10 +740,16 @@ function switchType(type) {
 }
 
 function selectGenre(card) {
-  const parent = card.parentElement;
-  parent.querySelectorAll('.genre-card').forEach(c => c.classList.remove('selected'));
+  card.parentElement.querySelectorAll('.genre-card').forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
   selectedGenre = card.dataset.genre;
+}
+
+function toggleTips(el) {
+  const content = document.getElementById('tipsContent');
+  const arrow = el.querySelector('.tips-arrow');
+  content.classList.toggle('open');
+  arrow.classList.toggle('open');
 }
 
 async function generate() {
@@ -769,16 +757,19 @@ async function generate() {
   isGenerating = true;
 
   const btn = document.getElementById('generateBtn');
-  const content = document.getElementById('content');
+  const results = document.getElementById('results');
   const customPrompt = document.getElementById('customPrompt').value.trim();
 
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;border-width:2px"></span><span>生成中...</span>';
+  btn.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2px"></span><span>生成中...</span>';
 
-  content.innerHTML = `
+  // Scroll to results on mobile
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  results.innerHTML = `
     <div class="loading-state">
       <div class="spinner"></div>
-      <div class="loading-text">Claude がネタを考えています<span class="loading-dots"></span></div>
+      <div class="loading-text">Claudeがネタを考えています<span class="loading-dots"></span></div>
     </div>
   `;
 
@@ -796,30 +787,24 @@ async function generate() {
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-
       const chunk = decoder.decode(value);
-      const lines = chunk.split('\n');
-
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          try {
-            const data = JSON.parse(line.slice(6));
-            if (data.chunk) fullText += data.chunk;
-            if (data.error) throw new Error(data.error);
-            if (data.done) {
-              renderResults(data.fullText || fullText, selectedType, selectedGenre);
-            }
-          } catch (e) {
-            if (e.message && !e.message.includes('JSON')) throw e;
-          }
+      for (const line of chunk.split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const data = JSON.parse(line.slice(6));
+          if (data.chunk) fullText += data.chunk;
+          if (data.error) throw new Error(data.error);
+          if (data.done) renderResults(data.fullText || fullText, selectedType, selectedGenre);
+        } catch (e) {
+          if (e.message && !e.message.includes('JSON')) throw e;
         }
       }
     }
   } catch (err) {
-    content.innerHTML = `
+    results.innerHTML = `
       <div class="error-box">
         ⚠️ エラーが発生しました: ${err.message}<br><br>
-        <strong>.env</strong> ファイルに <strong>ANTHROPIC_API_KEY</strong> が設定されているか確認してください。
+        .env ファイルに <strong>ANTHROPIC_API_KEY</strong> が設定されているか確認してください。
       </div>
     `;
   } finally {
@@ -830,52 +815,51 @@ async function generate() {
 }
 
 function extractJSON(text) {
-  // Try array first
-  const arrMatch = text.match(/\[[\s\S]*\]/);
-  if (arrMatch) {
-    try { return JSON.parse(arrMatch[0]); } catch {}
+  const start = text.indexOf('[');
+  const end = text.lastIndexOf(']');
+  if (start !== -1 && end > start) {
+    try { return JSON.parse(text.slice(start, end + 1)); } catch {}
   }
-  // Try code block
   const codeMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
   if (codeMatch) {
-    try { return JSON.parse(codeMatch[1]); } catch {}
+    const inner = codeMatch[1].trim();
+    try { return JSON.parse(inner); } catch {}
+    try { return JSON.parse('[' + inner + ']'); } catch {}
   }
+  try { return JSON.parse('[' + text.trim() + ']'); } catch {}
   return null;
 }
 
 function renderResults(text, type, genre) {
-  const content = document.getElementById('content');
+  const results = document.getElementById('results');
   const ideas = extractJSON(text);
 
   if (!ideas || !Array.isArray(ideas)) {
-    content.innerHTML = `
+    results.innerHTML = `
       <div class="error-box">JSONの解析に失敗しました。もう一度試してください。</div>
       <pre>${escapeHtml(text)}</pre>
     `;
     return;
   }
 
-  content.innerHTML = '';
+  results.innerHTML = '';
 
   ideas.forEach((idea, i) => {
     const card = document.createElement('div');
     card.className = 'story-card';
-
     if (type === 'story') {
-      card.innerHTML = genre === 'phrase'
-        ? renderPhraseCard(idea, i + 1)
-        : renderEpisodeCard(idea, i + 1);
+      if (genre === 'phrase') card.innerHTML = renderPhraseCard(idea, i + 1);
+      else if (genre === 'daily') card.innerHTML = renderDailyCard(idea, i + 1);
+      else card.innerHTML = renderEpisodeCard(idea, i + 1);
     } else {
       card.innerHTML = genre === 'carousel_phrase'
         ? renderCarouselPhraseCard(idea, i + 1)
         : renderCarouselEpisodeCard(idea, i + 1);
     }
-
-    content.appendChild(card);
+    results.appendChild(card);
   });
 
-  // Copy field buttons
-  content.querySelectorAll('[data-copy]').forEach(btn => {
+  results.querySelectorAll('[data-copy]').forEach(btn => {
     btn.addEventListener('click', () => {
       navigator.clipboard.writeText(btn.dataset.copy);
       const orig = btn.textContent;
@@ -885,8 +869,7 @@ function renderResults(text, type, genre) {
     });
   });
 
-  // Hashtag click-to-copy
-  content.querySelectorAll('.hashtag').forEach(tag => {
+  results.querySelectorAll('.hashtag').forEach(tag => {
     tag.addEventListener('click', () => {
       navigator.clipboard.writeText(tag.textContent);
       tag.classList.add('copied-tag');
@@ -894,196 +877,166 @@ function renderResults(text, type, genre) {
     });
   });
 
-  // Raw JSON toggle
-  content.querySelectorAll('[data-raw]').forEach(btn => {
+  results.querySelectorAll('[data-raw]').forEach(btn => {
     btn.addEventListener('click', () => {
       const pre = btn.nextElementSibling;
       pre.style.display = pre.style.display === 'none' ? 'block' : 'none';
-      btn.textContent = pre.style.display === 'none' ? '🔍 JSON確認' : '🔼 JSONを閉じる';
+      btn.textContent = pre.style.display === 'none' ? '🔍 JSON確認' : '🔼 閉じる';
     });
   });
 }
 
-/* ─────────── STORY: Phrase ─────────── */
+/* ─── Story: Phrase ─── */
 function renderPhraseCard(idea, num) {
   const mc = idea.main_content || {};
-  const hashtags = (idea.hashtags || []).map(h =>
-    `<span class="hashtag">#${h.replace(/^#/, '')}</span>`
-  ).join('');
+  const hashtags = hashtagHTML(idea.hashtags);
   const rawJSON = escapeHtml(JSON.stringify(idea, null, 2));
 
   return `
     <div class="card-header">
       <div class="card-num">${num}</div>
       <div class="card-title">${escapeHtml(idea.hook || '')}</div>
-      <button class="copy-all-btn" data-copy="${escapeAttr(buildFullStory(idea, 'phrase'))}">📋 全部コピー</button>
+      <button class="copy-all-btn" data-copy="${escapeAttr(buildFullStory(idea, 'phrase'))}">📋 コピー</button>
     </div>
     <div class="card-body">
       <div class="field">
-        <div class="field-label">🎣 フック（最初の2秒）</div>
+        <div class="field-label">🎣 フック</div>
         <div class="field-value hook-value">${escapeHtml(idea.hook || '')}</div>
       </div>
-      ${mc.wrong ? `<div class="field">
-        <div class="field-label">❌ 日本人が言いがちな表現</div>
-        <div class="field-value" style="color:#ff9090">${escapeHtml(mc.wrong)}</div>
-      </div>` : ''}
-      ${mc.right ? `<div class="field">
-        <div class="field-label">✅ ネイティブはこう言う</div>
-        <div class="field-value" style="color:var(--green);font-weight:600;font-size:17px">${escapeHtml(mc.right)}</div>
-      </div>` : ''}
-      ${mc.translation ? `<div class="field">
-        <div class="field-label">🇯🇵 意味</div>
-        <div class="field-value">${escapeHtml(mc.translation)}</div>
-      </div>` : ''}
-      ${mc.usage_note ? `<div class="field">
-        <div class="field-label">📝 ニュアンス・補足</div>
-        <div class="field-value">${escapeHtml(mc.usage_note)}</div>
-      </div>` : ''}
+      ${mc.wrong ? `<div class="field"><div class="field-label">❌ 日本人が言いがちな表現</div><div class="field-value" style="color:#ff9090">${escapeHtml(mc.wrong)}</div></div>` : ''}
+      ${mc.right ? `<div class="field"><div class="field-label">✅ ネイティブはこう言う</div><div class="field-value" style="color:var(--green);font-weight:600;font-size:17px">${escapeHtml(mc.right)}</div></div>` : ''}
+      ${mc.translation ? `<div class="field"><div class="field-label">🇯🇵 意味</div><div class="field-value">${escapeHtml(mc.translation)}</div></div>` : ''}
+      ${mc.usage_note ? `<div class="field"><div class="field-label">📝 補足</div><div class="field-value">${escapeHtml(mc.usage_note)}</div></div>` : ''}
       <div class="field">
         <div class="field-label">📝 キャプション</div>
         <div class="field-value" style="position:relative;white-space:pre-wrap">${escapeHtml(idea.caption || '')}<button class="copy-field-btn" data-copy="${escapeAttr(idea.caption || '')}">コピー</button></div>
       </div>
-      <div class="field">
-        <div class="field-label">🏷️ ハッシュタグ（クリックでコピー）</div>
-        <div class="hashtag-list">${hashtags}</div>
-      </div>
+      <div class="field"><div class="field-label">🏷️ ハッシュタグ</div><div class="hashtag-list">${hashtags}</div></div>
       ${renderVisual(idea.visual)}
-      ${idea.cta ? `<div class="field">
-        <div class="field-label">📣 CTA</div>
-        <div class="field-value cta-value">${escapeHtml(idea.cta)}</div>
-      </div>` : ''}
+      ${idea.cta ? `<div class="field"><div class="field-label">📣 CTA</div><div class="field-value cta-value">${escapeHtml(idea.cta)}</div></div>` : ''}
       <button class="raw-toggle" data-raw="true">🔍 JSON確認</button>
       <pre style="display:none">${rawJSON}</pre>
     </div>
   `;
 }
 
-/* ─────────── STORY: Episode ─────────── */
+/* ─── Story: Daily ─── */
+function renderDailyCard(idea, num) {
+  const hashtags = hashtagHTML(idea.hashtags);
+  const rawJSON = escapeHtml(JSON.stringify(idea, null, 2));
+
+  return `
+    <div class="card-header">
+      <div class="card-num">${num}</div>
+      <div class="card-title">${escapeHtml(idea.hook || idea.situation || '')}</div>
+      <button class="copy-all-btn" data-copy="${escapeAttr(buildFullStory(idea, 'daily'))}">📋 コピー</button>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <div class="field-label">🎣 フック（状況）</div>
+        <div class="field-value hook-value">${escapeHtml(idea.hook || idea.situation || '')}</div>
+      </div>
+      ${idea.japanese_phrase ? `<div class="field"><div class="field-label">🇯🇵 日本語で言うと</div><div class="field-value" style="font-size:16px;font-weight:600">${escapeHtml(idea.japanese_phrase)}</div></div>` : ''}
+      ${idea.english_phrase ? `<div class="field"><div class="field-label">🇺🇸 英語ではこう言う！</div><div class="field-value daily-value">${escapeHtml(idea.english_phrase)}</div></div>` : ''}
+      ${idea.pronunciation ? `<div class="field"><div class="field-label">🔊 発音・読み方</div><div class="field-value">${escapeHtml(idea.pronunciation)}</div></div>` : ''}
+      ${idea.usage_note ? `<div class="field"><div class="field-label">📝 使い方・補足</div><div class="field-value">${escapeHtml(idea.usage_note)}</div></div>` : ''}
+      ${idea.bonus_phrase ? `<div class="field"><div class="field-label">💡 関連フレーズ（ボーナス）</div><div class="field-value" style="color:#a89cff">${escapeHtml(idea.bonus_phrase)}</div></div>` : ''}
+      <div class="field">
+        <div class="field-label">📝 キャプション</div>
+        <div class="field-value" style="position:relative;white-space:pre-wrap">${escapeHtml(idea.caption || '')}<button class="copy-field-btn" data-copy="${escapeAttr(idea.caption || '')}">コピー</button></div>
+      </div>
+      <div class="field"><div class="field-label">🏷️ ハッシュタグ</div><div class="hashtag-list">${hashtags}</div></div>
+      ${renderVisual(idea.visual)}
+      ${idea.cta ? `<div class="field"><div class="field-label">📣 CTA</div><div class="field-value cta-value">${escapeHtml(idea.cta)}</div></div>` : ''}
+      <button class="raw-toggle" data-raw="true">🔍 JSON確認</button>
+      <pre style="display:none">${rawJSON}</pre>
+    </div>
+  `;
+}
+
+/* ─── Story: Episode ─── */
 function renderEpisodeCard(idea, num) {
   const beats = (idea.story_beats || []).map((b, i) =>
     `<div class="beat-item"><div class="beat-num">${i+1}</div><div>${escapeHtml(b)}</div></div>`
   ).join('');
-  const hashtags = (idea.hashtags || []).map(h =>
-    `<span class="hashtag">#${h.replace(/^#/, '')}</span>`
-  ).join('');
+  const hashtags = hashtagHTML(idea.hashtags);
   const rawJSON = escapeHtml(JSON.stringify(idea, null, 2));
 
   return `
     <div class="card-header">
       <div class="card-num">${num}</div>
       <div class="card-title">${escapeHtml(idea.episode_title || idea.hook || '')}</div>
-      <button class="copy-all-btn" data-copy="${escapeAttr(buildFullStory(idea, 'episode'))}">📋 全部コピー</button>
+      <button class="copy-all-btn" data-copy="${escapeAttr(buildFullStory(idea, 'episode'))}">📋 コピー</button>
     </div>
     <div class="card-body">
-      <div class="field">
-        <div class="field-label">🎣 フック（最初の2秒）</div>
-        <div class="field-value hook-value">${escapeHtml(idea.hook || '')}</div>
-      </div>
-      ${beats ? `<div class="field">
-        <div class="field-label">📖 ストーリー展開</div>
-        <div class="beats-list">${beats}</div>
-      </div>` : ''}
-      ${idea.lesson ? `<div class="field">
-        <div class="field-label">💡 学び</div>
-        <div class="field-value" style="color:#a89cff">${escapeHtml(idea.lesson)}</div>
-      </div>` : ''}
+      <div class="field"><div class="field-label">🎣 フック</div><div class="field-value hook-value">${escapeHtml(idea.hook || '')}</div></div>
+      ${beats ? `<div class="field"><div class="field-label">📖 ストーリー展開</div><div class="beats-list">${beats}</div></div>` : ''}
+      ${idea.lesson ? `<div class="field"><div class="field-label">💡 学び</div><div class="field-value" style="color:#a89cff">${escapeHtml(idea.lesson)}</div></div>` : ''}
       <div class="field">
         <div class="field-label">📝 キャプション</div>
         <div class="field-value" style="position:relative;white-space:pre-wrap">${escapeHtml(idea.caption || '')}<button class="copy-field-btn" data-copy="${escapeAttr(idea.caption || '')}">コピー</button></div>
       </div>
-      <div class="field">
-        <div class="field-label">🏷️ ハッシュタグ（クリックでコピー）</div>
-        <div class="hashtag-list">${hashtags}</div>
-      </div>
+      <div class="field"><div class="field-label">🏷️ ハッシュタグ</div><div class="hashtag-list">${hashtags}</div></div>
       ${renderVisual(idea.visual)}
-      ${idea.cta ? `<div class="field">
-        <div class="field-label">📣 CTA</div>
-        <div class="field-value cta-value">${escapeHtml(idea.cta)}</div>
-      </div>` : ''}
+      ${idea.cta ? `<div class="field"><div class="field-label">📣 CTA</div><div class="field-value cta-value">${escapeHtml(idea.cta)}</div></div>` : ''}
       <button class="raw-toggle" data-raw="true">🔍 JSON確認</button>
       <pre style="display:none">${rawJSON}</pre>
     </div>
   `;
 }
 
-/* ─────────── POST: Carousel Phrase ─────────── */
+/* ─── Post: Carousel Phrase ─── */
 function renderCarouselPhraseCard(idea, num) {
-  const slides = (idea.slides || []).map(s => renderCarouselSlide(s, 'phrase')).join('');
-  const hashtags = (idea.hashtags || []).map(h =>
-    `<span class="hashtag">#${h.replace(/^#/, '')}</span>`
-  ).join('');
+  const slides = (idea.slides || []).map(s => renderSlide(s, 'phrase')).join('');
+  const hashtags = hashtagHTML(idea.hashtags);
   const rawJSON = escapeHtml(JSON.stringify(idea, null, 2));
 
   return `
     <div class="card-header">
       <div class="card-num">${num}</div>
-      <div class="card-title">${escapeHtml(idea.theme || idea.title || 'カルーセル')}<span class="post-type-badge">🖼️ ${(idea.slides||[]).length}枚</span></div>
-      <button class="copy-all-btn" data-copy="${escapeAttr(buildFullCarousel(idea))}">📋 全部コピー</button>
+      <div class="card-title">${escapeHtml(idea.theme || '')} <span class="post-type-badge">🖼️ ${(idea.slides||[]).length}枚</span></div>
+      <button class="copy-all-btn" data-copy="${escapeAttr(buildFullCarousel(idea))}">📋 コピー</button>
     </div>
     <div class="card-body">
-      <div class="field">
-        <div class="field-label">🃏 スライド構成</div>
-        <div class="slides-container">${slides}</div>
-      </div>
-      <div class="field">
-        <div class="field-label">📝 キャプション</div>
-        <div class="field-value" style="position:relative;white-space:pre-wrap">${escapeHtml(idea.caption || '')}<button class="copy-field-btn" data-copy="${escapeAttr(idea.caption || '')}">コピー</button></div>
-      </div>
-      <div class="field">
-        <div class="field-label">🏷️ ハッシュタグ（クリックでコピー）</div>
-        <div class="hashtag-list">${hashtags}</div>
-      </div>
+      <div class="field"><div class="field-label">🃏 スライド構成</div><div class="slides-container">${slides}</div></div>
+      <div class="field"><div class="field-label">📝 キャプション</div><div class="field-value" style="position:relative;white-space:pre-wrap">${escapeHtml(idea.caption || '')}<button class="copy-field-btn" data-copy="${escapeAttr(idea.caption || '')}">コピー</button></div></div>
+      <div class="field"><div class="field-label">🏷️ ハッシュタグ</div><div class="hashtag-list">${hashtags}</div></div>
       <button class="raw-toggle" data-raw="true">🔍 JSON確認</button>
       <pre style="display:none">${rawJSON}</pre>
     </div>
   `;
 }
 
-/* ─────────── POST: Carousel Episode ─────────── */
+/* ─── Post: Carousel Episode ─── */
 function renderCarouselEpisodeCard(idea, num) {
-  const slides = (idea.slides || []).map(s => renderCarouselSlide(s, 'episode')).join('');
-  const hashtags = (idea.hashtags || []).map(h =>
-    `<span class="hashtag">#${h.replace(/^#/, '')}</span>`
-  ).join('');
+  const slides = (idea.slides || []).map(s => renderSlide(s, 'episode')).join('');
+  const hashtags = hashtagHTML(idea.hashtags);
   const rawJSON = escapeHtml(JSON.stringify(idea, null, 2));
 
   return `
     <div class="card-header">
       <div class="card-num">${num}</div>
-      <div class="card-title">${escapeHtml(idea.theme || idea.title || 'エピソードカルーセル')}<span class="post-type-badge">🖼️ ${(idea.slides||[]).length}枚</span></div>
-      <button class="copy-all-btn" data-copy="${escapeAttr(buildFullCarousel(idea))}">📋 全部コピー</button>
+      <div class="card-title">${escapeHtml(idea.theme || '')} <span class="post-type-badge">🖼️ ${(idea.slides||[]).length}枚</span></div>
+      <button class="copy-all-btn" data-copy="${escapeAttr(buildFullCarousel(idea))}">📋 コピー</button>
     </div>
     <div class="card-body">
-      <div class="field">
-        <div class="field-label">🃏 スライド構成</div>
-        <div class="slides-container">${slides}</div>
-      </div>
-      <div class="field">
-        <div class="field-label">📝 キャプション</div>
-        <div class="field-value" style="position:relative;white-space:pre-wrap">${escapeHtml(idea.caption || '')}<button class="copy-field-btn" data-copy="${escapeAttr(idea.caption || '')}">コピー</button></div>
-      </div>
-      <div class="field">
-        <div class="field-label">🏷️ ハッシュタグ（クリックでコピー）</div>
-        <div class="hashtag-list">${hashtags}</div>
-      </div>
+      <div class="field"><div class="field-label">🃏 スライド構成</div><div class="slides-container">${slides}</div></div>
+      <div class="field"><div class="field-label">📝 キャプション</div><div class="field-value" style="position:relative;white-space:pre-wrap">${escapeHtml(idea.caption || '')}<button class="copy-field-btn" data-copy="${escapeAttr(idea.caption || '')}">コピー</button></div></div>
+      <div class="field"><div class="field-label">🏷️ ハッシュタグ</div><div class="hashtag-list">${hashtags}</div></div>
       <button class="raw-toggle" data-raw="true">🔍 JSON確認</button>
       <pre style="display:none">${rawJSON}</pre>
     </div>
   `;
 }
 
-function renderCarouselSlide(slide, genre) {
+function renderSlide(slide, genre) {
   const type = slide.type || 'content';
   const badgeClass = { hook: 'badge-hook', content: 'badge-content', summary: 'badge-summary', cta: 'badge-cta' }[type] || 'badge-content';
   const badgeLabel = { hook: 'フック', content: 'コンテンツ', summary: 'まとめ', cta: 'CTA' }[type] || 'コンテンツ';
 
   let body = '';
-
   if (type === 'hook') {
-    body = `
-      <div class="slide-headline">${escapeHtml(slide.headline || '')}</div>
-      ${slide.subheadline ? `<div class="slide-sub">${escapeHtml(slide.subheadline)}</div>` : ''}
-    `;
+    body = `<div class="slide-headline">${escapeHtml(slide.headline || '')}</div>${slide.subheadline ? `<div class="slide-sub">${escapeHtml(slide.subheadline)}</div>` : ''}`;
   } else if (type === 'content' && genre === 'phrase') {
     body = `
       ${slide.wrong_phrase ? `<div class="slide-phrase-wrong">❌ ${escapeHtml(slide.wrong_phrase)}</div>` : ''}
@@ -1101,26 +1054,20 @@ function renderCarouselSlide(slide, genre) {
   } else if (type === 'summary') {
     body = `
       ${slide.headline ? `<div class="slide-headline">${escapeHtml(slide.headline)}</div>` : ''}
-      ${slide.points ? `<ul style="padding-left:16px;margin-top:6px;display:flex;flex-direction:column;gap:4px">${slide.points.map(p => `<li style="font-size:13px;color:var(--text-muted)">${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+      ${slide.points ? `<ul style="padding-left:14px;margin-top:4px;display:flex;flex-direction:column;gap:3px">${slide.points.map(p => `<li style="font-size:12px;color:var(--text-muted)">${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
     `;
   } else if (type === 'cta') {
-    body = `
-      <div class="slide-cta-main">${escapeHtml(slide.main_text || '')}</div>
-      ${slide.sub_text ? `<div class="slide-cta-sub">${escapeHtml(slide.sub_text)}</div>` : ''}
-    `;
+    body = `<div class="slide-cta-main">${escapeHtml(slide.main_text || '')}</div>${slide.sub_text ? `<div class="slide-cta-sub">${escapeHtml(slide.sub_text)}</div>` : ''}`;
   } else {
-    body = `
-      ${slide.headline ? `<div class="slide-headline">${escapeHtml(slide.headline)}</div>` : ''}
-      ${slide.text ? `<div class="slide-sub">${escapeHtml(slide.text)}</div>` : ''}
-    `;
+    body = `${slide.headline ? `<div class="slide-headline">${escapeHtml(slide.headline)}</div>` : ''}${slide.text ? `<div class="slide-sub">${escapeHtml(slide.text)}</div>` : ''}`;
   }
 
   return `
     <div class="slide">
       <div class="slide-header">
         <span class="slide-badge ${badgeClass}">${badgeLabel}</span>
-        ${slide.point_num ? `<span style="font-size:12px;color:var(--text-muted)">ポイント ${slide.point_num}</span>` : ''}
-        <span class="slide-num">スライド ${slide.num || ''}</span>
+        ${slide.point_num ? `<span style="font-size:11px;color:var(--text-muted)">ポイント${slide.point_num}</span>` : ''}
+        <span class="slide-num">スライド${slide.num || ''}</span>
       </div>
       <div class="slide-body">${body}</div>
     </div>
@@ -1133,36 +1080,21 @@ function renderVisual(visual) {
   const tc = visual.text_color || '';
   const bgColor = bg.match(/#[0-9a-fA-F]{3,6}/)?.[0] || '#555';
   const tcColor = tc.match(/#[0-9a-fA-F]{3,6}/)?.[0] || '#eee';
-
   return `
     <div class="field">
       <div class="field-label">🎨 ビジュアル提案</div>
       <div class="visual-card">
-        <div class="visual-item">
-          <div class="visual-key">背景色</div>
-          <div class="visual-val color-chip">
-            <div class="chip" style="background:${bgColor}"></div>
-            ${escapeHtml(bg)}
-          </div>
-        </div>
-        <div class="visual-item">
-          <div class="visual-key">文字色</div>
-          <div class="visual-val color-chip">
-            <div class="chip" style="background:${tcColor}"></div>
-            ${escapeHtml(tc)}
-          </div>
-        </div>
-        <div class="visual-item" style="grid-column:1/-1">
-          <div class="visual-key">レイアウト</div>
-          <div class="visual-val">${escapeHtml(visual.layout || '')}</div>
-        </div>
-        <div class="visual-item">
-          <div class="visual-key">アクセント絵文字</div>
-          <div class="visual-val" style="font-size:20px">${escapeHtml(visual.emoji || '')}</div>
-        </div>
+        <div class="visual-item"><div class="visual-key">背景色</div><div class="visual-val color-chip"><div class="chip" style="background:${bgColor}"></div>${escapeHtml(bg)}</div></div>
+        <div class="visual-item"><div class="visual-key">文字色</div><div class="visual-val color-chip"><div class="chip" style="background:${tcColor}"></div>${escapeHtml(tc)}</div></div>
+        <div class="visual-item" style="grid-column:1/-1"><div class="visual-key">レイアウト</div><div class="visual-val">${escapeHtml(visual.layout || '')}</div></div>
+        <div class="visual-item"><div class="visual-key">絵文字</div><div class="visual-val" style="font-size:18px">${escapeHtml(visual.emoji || '')}</div></div>
       </div>
     </div>
   `;
+}
+
+function hashtagHTML(tags) {
+  return (tags || []).map(h => `<span class="hashtag">#${h.replace(/^#/, '')}</span>`).join('');
 }
 
 function buildFullStory(idea, genre) {
@@ -1174,6 +1106,13 @@ function buildFullStory(idea, genre) {
     if (mc.right) parts.push(`✅ ${mc.right}`);
     if (mc.translation) parts.push(`意味: ${mc.translation}`);
     if (mc.usage_note) parts.push(mc.usage_note);
+  } else if (genre === 'daily') {
+    if (idea.hook) parts.push(`【状況】\n${idea.hook}`);
+    if (idea.japanese_phrase) parts.push(`日本語: ${idea.japanese_phrase}`);
+    if (idea.english_phrase) parts.push(`✅ 英語: ${idea.english_phrase}`);
+    if (idea.pronunciation) parts.push(`発音: ${idea.pronunciation}`);
+    if (idea.usage_note) parts.push(idea.usage_note);
+    if (idea.bonus_phrase) parts.push(`💡 関連: ${idea.bonus_phrase}`);
   } else {
     if (idea.hook) parts.push(`【フック】\n${idea.hook}`);
     if (idea.story_beats?.length) parts.push(idea.story_beats.join('\n'));
@@ -1190,9 +1129,7 @@ function buildFullCarousel(idea) {
   if (idea.theme) parts.push(`【テーマ】${idea.theme}`);
   (idea.slides || []).forEach(s => {
     const label = { hook: 'フック', content: 'コンテンツ', summary: 'まとめ', cta: 'CTA' }[s.type] || 'スライド';
-    const slideNum = s.num ? `スライド${s.num}` : '';
-    const point = s.point_num ? `ポイント${s.point_num}` : '';
-    parts.push(`【${slideNum} ${label} ${point}】`);
+    parts.push(`【スライド${s.num} ${label}${s.point_num ? ` ポイント${s.point_num}` : ''}】`);
     if (s.headline) parts.push(s.headline);
     if (s.subheadline) parts.push(s.subheadline);
     if (s.wrong_phrase) parts.push(`❌ ${s.wrong_phrase}`);
@@ -1209,21 +1146,12 @@ function buildFullCarousel(idea) {
 }
 
 function escapeHtml(str) {
-  return String(str || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+  return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-
 function escapeAttr(str) {
-  return String(str || '')
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+  return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-// Cmd+Enter to generate
 document.getElementById('customPrompt').addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.metaKey) generate();
 });
