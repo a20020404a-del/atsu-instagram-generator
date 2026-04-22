@@ -1,0 +1,16 @@
+{
+  "name": "instagram-story-generator",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Instagram Story ネタ自動生成ツール for @atsu_english_lesson",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.37.0",
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1"
+  }
+}
